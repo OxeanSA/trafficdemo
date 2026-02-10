@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SA Smart Traffic - Elite Enforcement</title>
+    <title>SA Smart Traffic - Elite Enforcement Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .step-content { display: none; }
@@ -29,8 +29,8 @@
 <body class="bg-slate-50 font-sans antialiased pb-20">
 
     <header class="sa-green text-white p-4 shadow-xl sticky top-0 z-50 flex justify-between items-center">
-        <h1 class="font-bold text-sm uppercase tracking-tighter">Officer Portal: Active Duty</h1>
-        <div class="bg-white/20 px-2 py-1 rounded text-[10px]">GP-JMPD-772</div>
+        <h1 class="font-bold text-sm uppercase tracking-tighter">RTMC Enforcement Portal</h1>
+        <div class="bg-green-400 px-2 py-1 rounded text-[10px] text-green-900 font-bold uppercase">eNaTIS Live</div>
     </header>
 
     <main class="max-w-md mx-auto p-4">
@@ -38,134 +38,127 @@
         <section id="step-login" class="step-content active">
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
                 <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">👮</div>
-                <h2 class="text-2xl font-black text-slate-800 text-center mb-6">Enforcement Login</h2>
+                <h2 class="text-2xl font-black text-slate-800 text-center mb-6">Officer Login</h2>
                 <div class="space-y-4">
                     <input type="text" placeholder="Force Number" class="w-full bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <input type="password" placeholder="PIN" class="w-full bg-slate-50 p-4 rounded-xl border border-slate-200 text-center tracking-widest">
-                    <button onclick="nextStep('menu')" class="w-full sa-green text-white py-4 rounded-xl font-black shadow-lg">START SHIFT</button>
+                    <input type="password" placeholder="Secure PIN" class="w-full bg-slate-50 p-4 rounded-xl border border-slate-200 text-center tracking-widest">
+                    <button onclick="nextStep('menu')" class="w-full sa-green text-white py-4 rounded-xl font-black shadow-lg">AUTHENTICATE</button>
                 </div>
             </div>
         </section>
 
         <section id="step-menu" class="step-content">
-            <h2 class="text-xl font-black mb-4 text-slate-800">Operational Selection</h2>
-            <div class="grid grid-cols-1 gap-4">
-                <button onclick="nextStep('scan-dl')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-green-600 text-left">
+            <h2 class="text-xl font-black mb-4 text-slate-800">Identify Driver</h2>
+            <div class="grid grid-cols-1 gap-3">
+                <button onclick="startAction('Scan License')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-green-600 text-left">
                     <span class="text-2xl">💳</span>
-                    <div>
-                        <p class="font-bold">Scan Driver's License</p>
-                        <p class="text-xs text-slate-500">Verify Card & NRTA Status</p>
-                    </div>
+                    <div><p class="font-bold">Scan Driver's License</p><p class="text-xs text-slate-500">Standard NRTA capture</p></div>
                 </button>
-                <button onclick="nextStep('menu')" class="opacity-50 flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-slate-400 text-left">
-                    <span class="text-2xl">🚗</span>
-                    <div>
-                        <p class="font-bold">Scan Vehicle Disc</p>
-                        <p class="text-xs text-slate-500">MVLX Validation</p>
-                    </div>
+                <button onclick="startAction('Verify ID Card')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-orange-500 text-left">
+                    <span class="text-2xl">🆔</span>
+                    <div><p class="font-bold">Verify ID Card</p><p class="text-xs text-slate-500">No license on person</p></div>
+                </button>
+                <button onclick="startAction('Identify by Face')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-purple-600 text-left">
+                    <span class="text-2xl">📸</span>
+                    <div><p class="font-bold">Identify by Face</p><p class="text-xs text-slate-500">Biometric lookup</p></div>
                 </button>
             </div>
         </section>
 
-        <section id="step-scan-dl" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm">
-                <h2 class="text-lg font-black mb-4">License Scanner</h2>
-                <div class="relative h-48 bg-black rounded-2xl overflow-hidden mb-6">
+        <section id="step-scanner" class="step-content">
+            <div class="bg-white p-6 rounded-3xl shadow-sm text-center">
+                <h2 id="scanner-title" class="text-lg font-black mb-6">Scanner</h2>
+                <div class="relative h-64 bg-slate-900 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
                     <div class="scan-line"></div>
+                    <div id="face-guide" class="hidden w-40 h-52 border-2 border-white/30 rounded-[100px]"></div>
+                    <div id="card-guide" class="w-56 h-36 border-2 border-white/30 rounded-xl"></div>
                 </div>
-                <button onclick="simulateVerification()" id="scan-btn" class="w-full sa-green text-white py-4 rounded-2xl font-black">SCAN FRONT OF CARD</button>
+                <button onclick="finishIdentification()" class="w-full sa-green text-white py-4 rounded-2xl font-black">CAPTURE & VERIFY</button>
             </div>
         </section>
 
         <section id="step-details" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border-b-8 border-green-500">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border-b-8 border-green-500 mb-4">
                 <div class="flex gap-4 mb-6">
-                    <div class="w-20 h-24 bg-slate-200 rounded-lg"></div>
+                    <div class="w-20 h-24 bg-slate-200 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold">DHA PHOTO</div>
                     <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase">Driver Name</p>
-                        <p class="font-black text-lg text-slate-800 leading-none">MOLOI, THABO</p>
-                        <p class="text-[10px] font-black text-slate-400 uppercase mt-2">ID Number</p>
-                        <p class="font-bold text-slate-700">850101 5000 081</p>
+                        <p class="text-[10px] font-black text-slate-400 uppercase leading-none">Driver Details</p>
+                        <p class="font-black text-lg text-slate-800">MOLOI, THABO</p>
+                        <p class="text-[10px] font-bold text-slate-500">ID: 850101 5000 081</p>
+                        <div class="mt-2 inline-block px-2 py-1 bg-green-100 text-green-800 text-[10px] font-black rounded uppercase">FIT FOR DRIVING ✅</div>
                     </div>
                 </div>
-
-                <div class="grid grid-cols-2 gap-2 mb-6">
-                    <div class="bg-slate-50 p-3 rounded-xl">
-                        <p class="text-[9px] font-bold text-slate-400">CLASS</p>
-                        <p class="font-black">CODE B</p>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-xl">
-                        <p class="text-[9px] font-bold text-slate-400">EXPIRY</p>
-                        <p class="font-black text-orange-600">2026-05-15</p>
-                    </div>
+                <div class="p-3 bg-red-50 text-red-700 rounded-xl border border-red-100 text-[10px]">
+                    <p class="font-black mb-1">HISTORY: 2 UNPAID FINES</p>
+                    <p>• 2025-11-12 | Speeding (N1) | Insp. Khoza</p>
                 </div>
+                <button onclick="nextStep('vehicle-search')" class="w-full sa-blue text-white py-4 rounded-2xl font-black mt-6">NEXT: VEHICLE SEARCH BY DISC</button>
+            </div>
+        </section>
 
-                <div class="mb-6">
-                    <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Infringement History</p>
-                    <div class="space-y-2">
-                        <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
-                            <span>Speeding (120/100)</span>
-                            <span class="font-bold">2025-11-12 | Insp. Khoza</span>
+        <section id="step-vehicle-search" class="step-content">
+            <div class="bg-white p-6 rounded-3xl shadow-sm text-center">
+                <h2 class="text-lg font-black mb-2">Vehicle Verification</h2>
+                <p class="text-xs text-slate-400 mb-6">Scan MVLX Disc for Ownership & Insurance</p>
+                <div class="relative h-48 bg-slate-800 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
+                    <div class="scan-line"></div>
+                    <div class="w-32 h-32 border-4 border-white/20 rounded-full"></div>
+                </div>
+                <button onclick="finishVehicleSearch()" id="v-search-btn" class="w-full sa-blue text-white py-4 rounded-2xl font-black">SCAN VEHICLE DISC</button>
+            </div>
+        </section>
+
+        <section id="step-vehicle-results" class="step-content">
+            <div class="bg-white p-6 rounded-3xl shadow-sm border-b-8 border-blue-600 mb-4">
+                <h2 class="text-lg font-black mb-4">Vehicle Profile: GP 22 RR GP</h2>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="bg-slate-50 p-4 rounded-2xl">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">Current Owner</p>
+                        <p class="font-bold text-slate-800 italic">MOLOI, THABO (ID Match ✅)</p>
+                        <p class="text-[10px] font-black text-slate-400 uppercase mt-3">Previous Owners</p>
+                        <p class="text-xs">1. AUTO X MIDRAND (2022-2024)</p>
+                        <p class="text-xs">2. DLAMINI, P (2020-2022)</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl border-2 flex items-center justify-between border-green-200 bg-green-50">
+                        <div>
+                            <p class="text-[10px] font-black text-green-700 uppercase">Insurance Status</p>
+                            <p class="font-black text-green-800 uppercase">Fully Insured</p>
+                            <p class="text-[10px] text-green-600">Provider: Discovery Insure</p>
                         </div>
-                        <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
-                            <span>Expired Disc</span>
-                            <span class="font-bold">2025-08-04 | Sgt. Smith</span>
-                        </div>
+                        <span class="text-2xl">🛡️</span>
                     </div>
                 </div>
-
-                <div class="p-4 bg-green-100 rounded-2xl flex items-center justify-between">
-                    <span class="font-black text-green-800">FIT FOR DRIVING</span>
-                    <span class="text-xl">✅</span>
-                </div>
-
-                <button onclick="nextStep('violations')" class="w-full sa-blue text-white py-4 rounded-2xl font-black mt-6">PROCEED TO INSPECTION</button>
+                <button onclick="nextStep('violations')" class="w-full sa-green text-white py-4 rounded-2xl font-black">PROCEED TO INSPECTION</button>
             </div>
         </section>
 
         <section id="step-violations" class="step-content">
             <div class="bg-white p-6 rounded-3xl shadow-sm mb-4">
-                <h2 class="text-xl font-black mb-6">Fine Assessment</h2>
+                <h2 class="text-xl font-black mb-6">Issue Fine</h2>
                 <div class="space-y-4">
-                    <div class="relative">
-                        <input type="checkbox" id="v1" class="violation-checkbox hidden" data-fine="1000" onchange="calculateTotal()">
-                        <label for="v1" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer font-bold">Unlicensed Driver <span class="text-red-600">R1,000</span></label>
-                    </div>
                     <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
                         <p class="text-sm font-bold mb-3">Vehicle Defect (Tyres/Lights) <span class="text-red-600">R500</span></p>
                         <input type="file" id="evidence-input" class="hidden" onchange="previewEvidence(this)">
-                        <button onclick="document.getElementById('evidence-input').click()" class="w-full bg-white border-dashed border-2 py-3 rounded-xl text-xs font-bold text-slate-400">📷 CAPTURE DEFECT PHOTO</button>
+                        <button onclick="document.getElementById('evidence-input').click()" class="w-full bg-white border-dashed border-2 py-3 rounded-xl text-xs font-bold text-slate-400">📷 ATTACH DEFECT PHOTO</button>
                         <img id="evidence-preview-img" class="hidden mt-3 w-full h-32 object-cover rounded-xl">
                         <input type="checkbox" id="v_defect" class="violation-checkbox hidden" data-fine="500" onchange="calculateTotal()">
                     </div>
                 </div>
-
-                <div class="mt-8">
-                    <div class="flex justify-between items-center mb-6">
-                        <span class="text-lg font-black italic">TOTAL:</span>
-                        <span id="total-amount" class="text-3xl font-black text-red-600">R0.00</span>
-                    </div>
-                    <button onclick="handleFineIssuance()" class="w-full bg-red-600 text-white py-5 rounded-2xl font-black">ISSUE FINE</button>
+                <div class="mt-8 pt-6 border-t flex justify-between items-center mb-6">
+                    <span class="text-lg font-black italic">TOTAL:</span>
+                    <span id="total-amount" class="text-3xl font-black text-red-600">R0.00</span>
                 </div>
+                <button onclick="nextStep('contact')" class="w-full bg-red-600 text-white py-5 rounded-2xl font-black">FINALIZE FINE</button>
             </div>
         </section>
 
         <section id="step-contact" class="step-content">
             <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
-                <div class="text-5xl mb-4">📲</div>
-                <h2 class="text-2xl font-black text-slate-800 mb-2">Send Fine Details</h2>
-                <p class="text-sm text-slate-500 mb-6">Enter the driver's mobile number to send the AARTO notification and payment link.</p>
-                <input type="tel" placeholder="082 000 0000" class="w-full bg-slate-50 p-4 rounded-2xl text-center text-xl font-black mb-6 border border-slate-200">
-                <button onclick="confirmSms()" class="w-full sa-green text-white py-4 rounded-2xl font-black shadow-lg">SEND VIA SMS</button>
-            </div>
-        </section>
-
-        <section id="step-finish" class="step-content">
-            <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
-                <div class="text-5xl mb-4">✔️</div>
-                <h2 class="text-2xl font-black text-slate-800 mb-2">Stop Logged</h2>
-                <p class="text-sm text-slate-500 mb-6">Reference: #ZA-99210-2026</p>
-                <button onclick="location.reload()" class="w-full sa-blue text-white py-4 rounded-2xl font-black">START ANOTHER STOP</button>
+                <h2 class="text-2xl font-black mb-6">Send Fine</h2>
+                <input type="tel" placeholder="Driver Phone Number" class="w-full bg-slate-50 p-4 rounded-2xl text-center text-xl font-black mb-6 border border-slate-200">
+                <button onclick="location.reload()" class="w-full sa-green text-white py-4 rounded-2xl font-black">FINISH & START NEW STOP</button>
             </div>
         </section>
 
@@ -178,10 +171,26 @@
             window.scrollTo(0,0);
         }
 
-        function simulateVerification() {
-            const btn = document.getElementById('scan-btn');
-            btn.innerHTML = "FETCHING eNaTIS RECORDS...";
-            setTimeout(() => nextStep('details'), 1200);
+        function startAction(type) {
+            document.getElementById('scanner-title').innerText = type + " Scanner";
+            if(type === 'Identify by Face') {
+                document.getElementById('face-guide').classList.remove('hidden');
+                document.getElementById('card-guide').classList.add('hidden');
+            } else {
+                document.getElementById('face-guide').classList.add('hidden');
+                document.getElementById('card-guide').classList.remove('hidden');
+            }
+            nextStep('scanner');
+        }
+
+        function finishIdentification() {
+            setTimeout(() => nextStep('details'), 800);
+        }
+
+        function finishVehicleSearch() {
+            const btn = document.getElementById('v-search-btn');
+            btn.innerHTML = "FETCHING OWNERSHIP & INSURANCE...";
+            setTimeout(() => nextStep('vehicle-results'), 1200);
         }
 
         function previewEvidence(input) {
@@ -205,17 +214,6 @@
                 total += parseInt(cb.getAttribute('data-fine'));
             });
             document.getElementById('total-amount').innerText = `R${total.toLocaleString()}`;
-        }
-
-        function handleFineIssuance() {
-            const total = document.getElementById('total-amount').innerText;
-            if (total === "R0.00") nextStep('finish');
-            else nextStep('contact');
-        }
-
-        function confirmSms() {
-            alert("Digital Fine Notification Sent.");
-            nextStep('finish');
         }
     </script>
 </body>

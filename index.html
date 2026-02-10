@@ -56,7 +56,7 @@
                 </button>
                 <button onclick="startAction('Verify ID Card')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-orange-500 text-left">
                     <span class="text-2xl">🆔</span>
-                    <div><p class="font-bold">Verify ID Card</p><p class="text-xs text-slate-500">No license on person</p></div>
+                    <div><p class="font-bold">Verify by ID Card</p><p class="text-xs text-slate-500">No license on person</p></div>
                 </button>
                 <button onclick="startAction('Identify by Face')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-purple-600 text-left">
                     <span class="text-2xl">📸</span>
@@ -78,14 +78,29 @@
         </section>
 
         <section id="step-details" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border-b-8 border-green-500 mb-4">
-                <div class="flex gap-4 mb-6">
-                    <div class="w-20 h-24 bg-slate-200 rounded-lg flex items-center justify-center text-[10px] text-slate-400 font-bold">DHA PHOTO</div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-20 h-20 bg-gray-200 rounded-full overflow-hidden border-2 border-green-500">
+                        <img src="https://via.placeholder.com/150" alt="Driver Photo">
+                    </div>
                     <div>
-                        <p class="text-[10px] font-black text-slate-400 uppercase leading-none">Driver Details</p>
-                        <p class="font-black text-lg text-slate-800">MOLOI, THABO</p>
-                        <p class="text-[10px] font-bold text-slate-500">ID: 850101 5000 081</p>
-                        <div class="mt-2 inline-block px-2 py-1 bg-green-100 text-green-800 text-[10px] font-black rounded uppercase">FIT FOR DRIVING ✅</div>
+                        <h3 class="font-bold text-lg">MOLOI, THABO</h3>
+                        <p class="text-sm text-gray-500">ID: 850101 5000 081</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-gray-600">Status</span>
+                        <span class="text-green-600 font-bold">VALID (NRTA)</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-gray-600">Expiry</span>
+                        <span class="text-orange-500 font-bold">2026-05-15 (Warning)</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="text-gray-600">Code</span>
+                        <span class="font-bold">Code B (Light Motor Vehicle)</span>
                     </div>
                 </div>
                 <div class="p-3 bg-red-50 text-red-700 rounded-xl border border-red-100 text-[10px]">
@@ -99,7 +114,7 @@
         <section id="step-vehicle-search" class="step-content">
             <div class="bg-white p-6 rounded-3xl shadow-sm text-center">
                 <h2 class="text-lg font-black mb-2">Vehicle Verification</h2>
-                <p class="text-xs text-slate-400 mb-6">Scan MVLX Disc for Ownership & Insurance</p>
+                <p class="text-xs text-slate-400 mb-6">Scan Disc</p>
                 <div class="relative h-48 bg-slate-800 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
                     <div class="scan-line"></div>
                     <div class="w-32 h-32 border-4 border-white/20 rounded-full"></div>
@@ -130,7 +145,19 @@
                         <span class="text-2xl">🛡️</span>
                     </div>
                 </div>
-                <button onclick="nextStep('violations')" class="w-full sa-green text-white py-4 rounded-2xl font-black">PROCEED TO INSPECTION</button>
+                <button onclick="nextStep('vehicle')" class="w-full sa-green text-white py-4 rounded-2xl font-black">PROCEED TO INSPECTION</button>
+            </div>
+        </section>
+
+        <section id="step-vehicle" class="step-content">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-bold mb-4">Select Vehicle Type</h2>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button onclick="setVehicle('Private')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚗 Private</button>
+                    <button onclick="setVehicle('Taxi')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚐 Taxi</button>
+                    <button onclick="setVehicle('Bus')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚌 Bus</button>
+                    <button onclick="setVehicle('Truck')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚚 Truck</button>
+                </div>
             </div>
         </section>
 
@@ -185,6 +212,29 @@
 
         function finishIdentification() {
             setTimeout(() => nextStep('details'), 800);
+        }
+
+        function setVehicle(type) {
+            const outcomeCard = document.getElementById('outcome-card');
+            if (type === 'Private') {
+                outcomeCard.innerHTML = `
+                    <div class="text-6xl mb-4">✅</div>
+                    <h2 class="text-2xl font-bold text-green-700">Fully Compliant</h2>
+                    <p class="text-gray-600 mt-2 mb-6">Driver Code B matches Vehicle Type: Private</p>
+                    <button onclick="resetApp()" class="w-full sa-green text-white py-3 rounded-lg font-bold">Complete & Log Stop</button>
+                `;
+            } else {
+                outcomeCard.innerHTML = `
+                    <div class="text-6xl mb-4">⚠️</div>
+                    <h2 class="text-2xl font-bold text-red-600">Non-Compliant</h2>
+                    <p class="text-gray-600 mt-2 mb-6">Incompatible License: Vehicle ${type} must be towed</p>
+                    <div class="space-y-3">
+                        <button class="w-full bg-orange-500 text-white py-3 rounded-lg font-bold">Issue AARTO Fine</button>
+                        <button onclick="resetApp()" class="w-full border-2 border-gray-300 py-3 rounded-lg font-bold">Warning Only</button>
+                    </div>
+                `;
+            }
+            nextStep('violations');
         }
 
         function finishVehicleSearch() {

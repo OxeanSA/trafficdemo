@@ -3,141 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SA Smart Traffic Verification - Full Feature</title>
+    <title>SA Smart Traffic - Pro Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .step-content { display: none; }
         .step-content.active { display: block; }
         .sa-green { background-color: #007a4d; }
-        .sa-gold { background-color: #ffb81c; }
-        .status-pill { padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+        .sa-blue { background-color: #002395; }
+        .chart-bar { transition: height 1s ease-in-out; }
+        .scan-line {
+            height: 2px;
+            background: #007a4d;
+            box-shadow: 0 0 15px #007a4d;
+            animation: move-line 2s infinite linear;
+        }
+        @keyframes move-line {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 font-sans antialiased pb-10">
+<body class="bg-slate-100 font-sans antialiased pb-10">
 
-    <header class="sa-green text-white p-4 shadow-lg sticky top-0 z-50 flex justify-between items-center">
-        <div>
-            <h1 class="font-bold text-lg leading-tight">RTMC ENFORCER</h1>
-            <div class="flex items-center gap-2">
-                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                <span class="text-[10px] uppercase tracking-wider">NaTIS Live Link</span>
+    <header class="sa-green text-white p-4 shadow-xl sticky top-0 z-50 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="bg-white p-1 rounded">
+                <div class="w-6 h-4 bg-black mb-[1px]"></div>
+                <div class="w-6 h-4 sa-green"></div>
             </div>
+            <h1 class="font-bold text-sm tracking-tighter">TRAFFIC ENFORCEMENT<br><span class="text-[10px] opacity-80">PROVINCIAL GOVERNMENT</span></h1>
         </div>
-        <div class="text-right">
-            <p class="text-xs opacity-80">Insp. Sithole</p>
-            <p class="text-[10px] font-mono">Unit: GP-JMPD-442</p>
-        </div>
+        <button onclick="nextStep(11)" class="bg-white/20 px-3 py-1 rounded text-xs font-bold">📊 STATS</button>
     </header>
 
     <main class="max-w-md mx-auto p-4">
-        
+
         <section id="step-1" class="step-content active">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h2 class="text-xl font-bold mb-1">Officer Authentication</h2>
-                <p class="text-gray-500 text-sm mb-6">Biometric or PIN access required</p>
-                <div class="space-y-4">
-                    <input type="text" placeholder="Force Number" class="w-full border p-4 rounded-xl">
-                    <div class="grid grid-cols-4 gap-2 mb-4">
-                        <div class="h-12 border-2 border-green-600 rounded-lg flex items-center justify-center font-bold text-xl">•</div>
-                        <div class="h-12 border-2 border-green-600 rounded-lg flex items-center justify-center font-bold text-xl">•</div>
-                        <div class="h-12 border-2 border-gray-200 rounded-lg"></div>
-                        <div class="h-12 border-2 border-gray-200 rounded-lg"></div>
-                    </div>
-                    <button onclick="nextStep(2)" class="w-full sa-green text-white py-4 rounded-xl font-bold shadow-md">Login to Shift</button>
-                </div>
+            <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
+                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">👤</div>
+                <h2 class="text-2xl font-black text-slate-800 mb-2">Officer Login</h2>
+                <input type="password" placeholder="ENTER 6-DIGIT PIN" class="w-full bg-slate-50 border-none p-4 rounded-2xl text-center text-2xl tracking-[1em] mb-6">
+                <button onclick="nextStep(2)" class="w-full sa-green text-white py-4 rounded-2xl font-black shadow-lg shadow-green-900/20">START SHIFT</button>
             </div>
         </section>
 
         <section id="step-2" class="step-content">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
-                <div class="w-16 h-16 sa-green/10 text-green-700 rounded-full flex items-center justify-center mx-auto mb-4">📍</div>
-                <h2 class="text-xl font-bold">New Patrol Stop</h2>
-                <p class="text-gray-500 text-sm mb-6">Midrand, Gauteng (N1 Northbound)</p>
-                <button onclick="nextStep(3)" class="w-full sa-green text-white py-4 rounded-xl font-bold">Initiate Enforcement Stop</button>
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-4">
+                <h2 class="font-black text-slate-500 text-xs uppercase mb-4 tracking-widest">Active Patrol</h2>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="p-3 bg-blue-50 text-blue-600 rounded-2xl text-2xl">📡</div>
+                    <div>
+                        <p class="font-bold text-slate-800">Zone: Sandton Sector 2</p>
+                        <p class="text-xs text-gray-500">GPS: -26.1076, 28.0567</p>
+                    </div>
+                </div>
+                <button onclick="nextStep(3)" class="w-full sa-green text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3">
+                    <span>+</span> NEW VEHICLE STOP
+                </button>
             </div>
         </section>
 
         <section id="step-3" class="step-content">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h2 class="text-xl font-bold mb-4">Scan License</h2>
-                <div class="aspect-[3/2] bg-black rounded-xl relative overflow-hidden mb-6 flex items-center justify-center">
-                    <div class="absolute border-2 border-white/50 w-4/5 h-3/5 rounded-lg"></div>
-                    <p class="text-white text-xs z-10">Align Card QR Code</p>
+            <div class="bg-white p-6 rounded-3xl shadow-sm mb-4">
+                <h2 class="text-xl font-black mb-1 text-slate-800">1. Vehicle Disc</h2>
+                <p class="text-sm text-gray-500 mb-6">Scan MVLX Disc on Windscreen</p>
+                
+                <div class="relative aspect-square bg-slate-900 rounded-3xl overflow-hidden mb-6 border-4 border-white shadow-inner">
+                    <div class="absolute inset-0 opacity-40 bg-[url('https://www.shutterstock.com/image-vector/qr-code-sample-vector-illustration-260nw-1097155013.jpg')] bg-cover"></div>
+                    <div class="scan-line absolute w-full"></div>
                 </div>
-                <button onclick="simulateScan()" id="scan-btn" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold">Access NaTIS Records</button>
+
+                <div id="disc-data" class="hidden space-y-3 mb-6 animate-in fade-in duration-500">
+                    <div class="bg-green-50 p-4 rounded-2xl border border-green-100">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-bold text-green-700 uppercase">Registration</span>
+                            <span class="font-mono font-black">GP 22 RR GP</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-green-700 uppercase">Expiry</span>
+                            <span class="font-bold text-green-700">2026-11-30</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="scan-disc-btn" onclick="verifyDisc()" class="w-full sa-blue text-white py-4 rounded-2xl font-black">SCAN DISC</button>
+                <button id="next-to-driver" onclick="nextStep(4)" class="hidden w-full sa-green text-white py-4 rounded-2xl font-black mt-2">CONTINUE TO DRIVER</button>
             </div>
         </section>
 
         <section id="step-4" class="step-content">
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div class="sa-green p-4 flex items-center gap-4">
-                    <div class="w-16 h-16 bg-gray-300 rounded-lg border-2 border-white"></div>
-                    <div class="text-white">
-                        <h3 class="font-bold uppercase leading-none">Moloi, Thabo</h3>
-                        <p class="text-[10px]">ID: 850101 5000 081</p>
+            <div class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-green-600">
+                <h2 class="text-xl font-black mb-6">2. Driver Identity</h2>
+                <div class="flex gap-4 mb-6 p-4 bg-slate-50 rounded-2xl">
+                    <div class="w-20 h-20 bg-slate-300 rounded-xl"></div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase">Full Name</p>
+                        <p class="font-black text-slate-800">THABO MOLOI</p>
+                        <p class="text-xs text-slate-400 font-bold uppercase mt-2">License Code</p>
+                        <p class="font-black text-slate-800">CODE B</p>
                     </div>
                 </div>
-                <div class="p-6 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">Auth Status</span>
-                        <span class="status-pill bg-green-100 text-green-700 uppercase">Authentic</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">Expiry Date</span>
-                        <span class="status-pill bg-orange-100 text-orange-700 uppercase">Expires in 14 Days</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">License Code</span>
-                        <span class="font-bold text-gray-800">CODE B (Light Motor Vehicle)</span>
-                    </div>
-                    <button onclick="nextStep(8)" class="w-full sa-green text-white py-4 rounded-xl font-bold mt-4">Confirm Identity & Continue</button>
-                </div>
+                <button onclick="nextStep(8)" class="w-full sa-green text-white py-4 rounded-2xl font-black">VERIFY VEHICLE MATCH</button>
             </div>
         </section>
 
         <section id="step-8" class="step-content">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <h2 class="text-xl font-bold mb-4">Vehicle Category</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <button onclick="setVehicle('Private', true)" class="border-2 border-gray-100 p-4 rounded-xl hover:border-green-600 flex flex-col items-center">
-                        <span class="text-2xl mb-2">🚗</span>
-                        <span class="text-xs font-bold uppercase">Private</span>
+            <div class="bg-white p-6 rounded-3xl shadow-sm">
+                <h2 class="text-xl font-black mb-4">3. Class Match</h2>
+                <div class="grid grid-cols-1 gap-3">
+                    <button onclick="finalOutcome(true)" class="flex items-center gap-4 p-4 border-2 border-slate-100 rounded-2xl text-left hover:border-green-500 transition-all">
+                        <span class="text-3xl">🚗</span>
+                        <div>
+                            <p class="font-black text-slate-800">Light Motor Vehicle</p>
+                            <p class="text-xs text-slate-500">Matches Code B / EB</p>
+                        </div>
                     </button>
-                    <button onclick="setVehicle('Minibus Taxi', false)" class="border-2 border-gray-100 p-4 rounded-xl hover:border-green-600 flex flex-col items-center">
-                        <span class="text-2xl mb-2">🚐</span>
-                        <span class="text-xs font-bold uppercase">Taxi</span>
+                    <button onclick="finalOutcome(false)" class="flex items-center gap-4 p-4 border-2 border-slate-100 rounded-2xl text-left hover:border-red-500 transition-all">
+                        <span class="text-3xl">🚚</span>
+                        <div>
+                            <p class="font-black text-slate-800">Heavy Vehicle / Truck</p>
+                            <p class="text-xs text-red-500 font-bold">Incompatible with Code B</p>
+                        </div>
                     </button>
                 </div>
             </div>
         </section>
 
         <section id="step-9" class="step-content">
-            <div id="outcome-container" class="space-y-4">
-                </div>
+            <div id="final-card"></div>
         </section>
 
         <section id="step-11" class="step-content">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-4">
-                <h2 class="text-lg font-bold mb-4">Shift Statistics (Today)</h2>
-                <div class="grid grid-cols-2 gap-4 text-center">
-                    <div class="bg-slate-50 p-4 rounded-xl">
-                        <p class="text-2xl font-bold text-green-700">12</p>
-                        <p class="text-[10px] text-gray-500 uppercase">Compliant</p>
+            <h2 class="text-2xl font-black mb-6 text-slate-800">Performance Dashboard</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white p-4 rounded-3xl shadow-sm">
+                    <p class="text-[10px] font-black text-slate-400 uppercase">Stops Today</p>
+                    <p class="text-3xl font-black text-slate-800">42</p>
+                </div>
+                <div class="bg-white p-4 rounded-3xl shadow-sm">
+                    <p class="text-[10px] font-black text-slate-400 uppercase">Compliance</p>
+                    <p class="text-3xl font-black text-green-600">92%</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl shadow-sm mb-6">
+                <h3 class="text-xs font-black text-slate-400 uppercase mb-6">Weekly Infringements</h3>
+                <div class="flex items-end justify-between h-32 gap-2">
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-slate-100 rounded-t-lg h-12 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
+                        <span class="text-[10px] font-bold">MON</span>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl">
-                        <p class="text-2xl font-bold text-red-600">3</p>
-                        <p class="text-[10px] text-gray-500 uppercase">Fines Issued</p>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-slate-100 rounded-t-lg h-24 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
+                        <span class="text-[10px] font-bold">TUE</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-slate-100 rounded-t-lg h-16 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-blue h-full"></div></div>
+                        <span class="text-[10px] font-bold">WED</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-slate-100 rounded-t-lg h-8 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
+                        <span class="text-[10px] font-bold">THU</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full bg-slate-100 rounded-t-lg h-28 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
+                        <span class="text-[10px] font-bold">FRI</span>
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <h3 class="text-sm font-bold mb-3 uppercase text-gray-400">Recent Logs</h3>
-                <div class="space-y-3 text-xs">
-                    <div class="flex justify-between border-b pb-2"><span>11:05 AM - Moloi, T</span><span class="text-green-600">PASSED</span></div>
-                    <div class="flex justify-between border-b pb-2"><span>10:42 AM - Dlamini, S</span><span class="text-red-600">FINED (EXP)</span></div>
+
+            <div class="bg-slate-800 p-6 rounded-3xl text-white mb-6">
+                <h3 class="text-xs font-black text-slate-400 uppercase mb-4">Infringement Breakdown</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-xs mb-1"><span>Unlicensed Driver</span><span>15%</span></div>
+                        <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-red-500 h-full w-[15%] rounded-full"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-1"><span>Expired Disc</span><span>65%</span></div>
+                        <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-orange-400 h-full w-[65%] rounded-full"></div></div>
+                    </div>
                 </div>
             </div>
-            <button onclick="location.reload()" class="w-full mt-6 sa-green text-white py-4 rounded-xl font-bold">End Shift / New Stop</button>
+
+            <button onclick="nextStep(2)" class="w-full sa-green text-white py-4 rounded-2xl font-black">RETURN TO PATROL</button>
         </section>
 
     </main>
@@ -149,39 +199,35 @@
             window.scrollTo(0,0);
         }
 
-        function simulateScan() {
-            const btn = document.getElementById('scan-btn');
-            btn.innerHTML = `<span class="animate-spin inline-block mr-2">↻</span> Querying Natis...`;
-            btn.disabled = true;
-            setTimeout(() => nextStep(4), 1200);
+        function verifyDisc() {
+            const btn = document.getElementById('scan-disc-btn');
+            btn.innerHTML = `<span class="animate-pulse">QUERYING eNaTIS...</span>`;
+            setTimeout(() => {
+                btn.classList.add('hidden');
+                document.getElementById('disc-data').classList.remove('hidden');
+                document.getElementById('next-to-driver').classList.remove('hidden');
+            }, 1500);
         }
 
-        function setVehicle(type, isCompliant) {
-            const container = document.getElementById('outcome-container');
-            if(isCompliant) {
-                container.innerHTML = `
-                    <div class="bg-white p-8 rounded-2xl text-center shadow-lg border-t-8 border-green-500">
-                        <div class="text-5xl mb-4">✅</div>
-                        <h2 class="text-2xl font-bold">STOP COMPLIANT</h2>
-                        <p class="text-sm text-gray-500 mb-6">License Code B matches Private Vehicle category.</p>
-                        <button onclick="nextStep(11)" class="w-full sa-green text-white py-4 rounded-xl font-bold">Log & Clear Stop</button>
+        function finalOutcome(isSuccess) {
+            const card = document.getElementById('final-card');
+            if(isSuccess) {
+                card.innerHTML = `
+                    <div class="bg-white p-8 rounded-3xl text-center border-b-8 border-green-500">
+                        <div class="text-6xl mb-4">🛡️</div>
+                        <h2 class="text-2xl font-black text-slate-800">VERIFIED</h2>
+                        <p class="text-sm text-slate-500 mb-6 uppercase tracking-widest font-bold">Vehicle & Driver Compliant</p>
+                        <button onclick="nextStep(11)" class="w-full sa-green text-white py-4 rounded-2xl font-black">LOG STOP & FINISH</button>
                     </div>`;
             } else {
-                container.innerHTML = `
-                    <div class="bg-white p-6 rounded-2xl shadow-lg border-t-8 border-red-500">
-                        <h2 class="text-xl font-bold text-red-600 mb-2">NON-COMPLIANCE DETECTED</h2>
-                        <p class="text-sm text-gray-600 mb-6 font-medium">Driver (Code B) is not authorized to operate a ${type}. (NRTA Sec 12)</p>
-                        
-                        <div class="space-y-3 mb-6">
-                            <label class="block text-xs font-bold text-gray-400 uppercase">Enforcement Action</label>
-                            <button onclick="nextStep(11)" class="w-full bg-red-600 text-white py-3 rounded-lg text-sm font-bold">Issue AARTO Fine (R1,250)</button>
-                            <button onclick="nextStep(11)" class="w-full bg-orange-500 text-white py-3 rounded-lg text-sm font-bold">Issue Written Warning</button>
-                            <button onclick="nextStep(11)" class="w-full bg-slate-800 text-white py-3 rounded-lg text-sm font-bold">Request Vehicle Impound</button>
-                        </div>
-                        
-                        <div class="border-2 border-dashed border-gray-200 p-4 rounded-lg text-center">
-                            <p class="text-[10px] text-gray-400 mb-2">DRIVER ACKNOWLEDGEMENT SIGNATURE</p>
-                            <div class="h-20 bg-gray-50"></div>
+                card.innerHTML = `
+                    <div class="bg-white p-8 rounded-3xl text-center border-b-8 border-red-500">
+                        <div class="text-6xl mb-4">🚫</div>
+                        <h2 class="text-2xl font-black text-red-600">VIOLATION</h2>
+                        <p class="text-sm text-slate-500 mb-6 uppercase tracking-widest font-bold">Class Mismatch (NRTA Sec 12)</p>
+                        <div class="space-y-2">
+                            <button onclick="nextStep(11)" class="w-full bg-red-600 text-white py-4 rounded-2xl font-black">ISSUE SECTION 56 FINE</button>
+                            <button onclick="nextStep(11)" class="w-full border-2 border-slate-200 py-4 rounded-2xl font-black text-slate-500">WRITTEN WARNING</button>
                         </div>
                     </div>`;
             }

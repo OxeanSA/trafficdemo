@@ -107,11 +107,25 @@
                         <span class="font-bold">Code B (Light Motor Vehicle)</span>
                     </div>
                 </div>
-                <div class="p-3 bg-red-50 text-red-700 rounded-xl border border-red-100 text-[10px]">
-                    <p class="font-black mb-1">HISTORY: 2 UNPAID FINES</p>
-                    <p>• 2025-11-12 | Speeding (N1) | Insp. Khoza</p>
+                <div class="mb-6">
+                    <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Infringement History</p>
+                    <div class="space-y-2">
+                        <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
+                            <span>Speeding (120/100)</span>
+                            <span class="font-bold">2025-11-12 | Insp. Khoza</span>
+                        </div>
+                        <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
+                            <span>Expired Disc</span>
+                            <span class="font-bold">2025-08-04 | Sgt. Smith</span>
+                        </div>
+                    </div>
                 </div>
-                <button onclick="nextStep('vehicle')" class="w-full sa-blue text-white py-4 rounded-2xl font-black mt-6">NEXT: SCAN DISC</button>
+
+                <div class="p-4 bg-green-100 rounded-2xl flex items-center justify-between">
+                    <span class="font-black text-green-800">FIT FOR DRIVING</span>
+                    <span class="text-xl">✅</span>
+                </div>
+                <button onclick="nextStep('vehicle')" class="w-full sa-blue text-white py-4 rounded-2xl font-black mt-6">Verify vehicle</button>
             </div>
         </section>
 
@@ -130,7 +144,7 @@
         <section id="step-vehicle-search" class="step-content">
             <div class="bg-white p-6 rounded-3xl shadow-sm text-center">
                 <h2 class="text-lg font-black mb-2">Vehicle Verification</h2>
-                <p class="text-xs text-slate-400 mb-6">Scan Disc</p>
+                <p class="text-xs text-slate-400 mb-6">Scan Vehicle Disc</p>
                 <div class="relative h-48 bg-slate-800 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
                     <div class="scan-line"></div>
                     <div class="w-32 h-32 border-4 border-white/20 rounded-full"></div>
@@ -148,7 +162,7 @@
                         <p class="text-[10px] font-black text-slate-400 uppercase">Current Owner</p>
                         <p class="font-bold text-slate-800 italic">MOLOI, THABO (ID Match ✅)</p>
                         <p class="text-[10px] font-black text-slate-400 uppercase mt-3">Previous Owners</p>
-                        <p class="text-xs">1. AUTO X MIDRAND (2022-2024)</p>
+                        <p class="text-xs">1. AUTO X BLOEMFONTEIN (2022-2024)</p>
                         <p class="text-xs">2. DLAMINI, P (2020-2022)</p>
                     </div>
 
@@ -167,21 +181,63 @@
 
         <section id="step-violations" class="step-content">
             <div class="bg-white p-6 rounded-3xl shadow-sm mb-4">
-                <h2 class="text-xl font-black mb-6">Issue Fine</h2>
-                <div class="space-y-4">
+                <h2 class="text-xl font-black mb-1">Inspection Results</h2>
+                <p class="text-xs text-gray-500 mb-6">Select all applicable violations</p>
+                
+                <div class="space-y-3" id="violation-list">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-4">Documentation</p>
+                    <div class="relative">
+                        <input type="checkbox" id="v1" class="violation-checkbox hidden" data-fine="1250" onchange="calculateTotal()">
+                        <label for="v1" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Expired License Disc</span>
+                            <span class="text-sm font-mono">R1,250</span>
+                        </label>
+                    </div>
+                    <div class="relative">
+                        <input type="checkbox" id="v2" class="violation-checkbox hidden" data-fine="1000" onchange="calculateTotal()">
+                        <label for="v2" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Unlicensed Driver</span>
+                            <span class="text-sm font-mono">R1,000</span>
+                        </label>
+                    </div>
+
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-4">Vehicle Defects</p>
+                    <div class="relative">
+                        <input type="checkbox" id="v3" class="violation-checkbox hidden" data-fine="500" onchange="calculateTotal()">
+                        <label for="v3" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Smooth Tyres (Per Tyre)</span>
+                            <span class="text-sm font-mono">R500</span>
+                        </label>
+                    </div>
+                    <div class="relative">
+                        <input type="checkbox" id="v4" class="violation-checkbox hidden" data-fine="250" onchange="calculateTotal()">
+                        <label for="v4" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Broken Headlight/Indicator</span>
+                            <span class="text-sm font-mono">R250</span>
+                        </label>
+                    </div>
                     <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
-                        <p class="text-sm font-bold mb-3">Vehicle Defect (Tyres/Lights) <span class="text-red-600">R500</span></p>
-                        <input type="file" id="evidence-input" class="hidden" onchange="previewEvidence(this)">
-                        <button onclick="document.getElementById('evidence-input').click()" class="w-full bg-white border-dashed border-2 py-3 rounded-xl text-xs font-bold text-slate-400">📷 ATTACH DEFECT PHOTO</button>
-                        <img id="evidence-preview-img" class="hidden mt-3 w-full h-32 object-cover rounded-xl">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-bold">Vehicle Defect (Tyres/Lights)</span>
+                            <span class="text-sm font-mono">R500</span>
+                        </div>
+                        <input type="file" id="evidence-input" accept="image/*" class="hidden" onchange="previewEvidence(this)">
+                        <button onclick="document.getElementById('evidence-input').click()" class="w-full bg-white border-2 border-dashed border-slate-300 py-3 rounded-xl text-xs font-bold text-slate-500 flex items-center justify-center gap-2">
+                            📷 ATTACH PHOTO EVIDENCE
+                        </button>
+                        <img id="evidence-preview-img" class="evidence-preview mt-3">
                         <input type="checkbox" id="v_defect" class="violation-checkbox hidden" data-fine="500" onchange="calculateTotal()">
                     </div>
                 </div>
-                <div class="mt-8 pt-6 border-t flex justify-between items-center mb-6">
-                    <span class="text-lg font-black italic">TOTAL:</span>
-                    <span id="total-amount" class="text-3xl font-black text-red-600">R0.00</span>
+
+                <div class="mt-8 pt-6 border-t-2 border-slate-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-lg font-black italic">TOTAL FINE:</span>
+                        <span id="total-amount" class="text-3xl font-black text-red-600">R0.00</span>
+                    </div>
+                    <button onclick="issueFine()" class="w-full bg-red-600 text-white py-5 rounded-2xl font-black shadow-lg shadow-red-900/20">ISSUE DIGITAL FINE</button>
+                    <button onclick="nextStep('contact')" class="w-full mt-3 text-slate-400 font-bold py-2">No Violations (Clear)</button>
                 </div>
-                <button onclick="nextStep('contact')" class="w-full bg-red-600 text-white py-5 rounded-2xl font-black">FINALIZE FINE</button>
             </div>
         </section>
 
@@ -189,13 +245,14 @@
             <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
                 <h2 class="text-2xl font-black mb-6">Send Fine</h2>
                 <input type="tel" placeholder="Driver Phone Number" class="w-full bg-slate-50 p-4 rounded-2xl text-center text-xl font-black mb-6 border border-slate-200">
-                <button onclick="location.reload()" class="w-full sa-green text-white py-4 rounded-2xl font-black">FINISH & START NEW STOP</button>
+                <button onclick="alert(`Fine of ${total} issued and sent to driver via SMS/Email. Logged to AARTO.`); " class="w-full sa-green text-white py-4 rounded-2xl font-black">Proceed</button>
             </div>
         </section>
 
         <section id="step-outcome" class="step-content">
             <div id="outcome-card" class="bg-white p-6 rounded-xl shadow-md text-center">
                 </div>
+            <button onclick="nextStep('menu')" class="w-full mt-3 text-slate-400 font-bold py-2">New stop</button>
         </section>
 
     </main>
@@ -269,10 +326,20 @@
 
         function calculateTotal() {
             let total = 0;
-            document.querySelectorAll('.violation-checkbox:checked').forEach(cb => {
+            const checkboxes = document.querySelectorAll('.violation-checkbox:checked');
+            checkboxes.forEach(cb => {
                 total += parseInt(cb.getAttribute('data-fine'));
             });
             document.getElementById('total-amount').innerText = `R${total.toLocaleString()}`;
+        }
+
+        function issueFine() {
+            const total = document.getElementById('total-amount').innerText;
+            if(total === "R0") {
+                alert("Please select at least one violation.");
+                return;
+            }
+            nextStep('contact');
         }
     </script>
 </body>

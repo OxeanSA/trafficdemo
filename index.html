@@ -3,191 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SA Smart Traffic - Pro Edition</title>
+    <title>SA Smart Traffic - Enforcement Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .step-content { display: none; }
         .step-content.active { display: block; }
         .sa-green { background-color: #007a4d; }
         .sa-blue { background-color: #002395; }
-        .chart-bar { transition: height 1s ease-in-out; }
         .scan-line {
             height: 2px;
             background: #007a4d;
             box-shadow: 0 0 15px #007a4d;
             animation: move-line 2s infinite linear;
+            position: absolute;
+            width: 100%;
         }
-        @keyframes move-line {
-            0% { top: 0%; }
-            100% { top: 100%; }
+        @keyframes move-line { 0% { top: 0%; } 100% { top: 100%; } }
+        .violation-checkbox:checked + label {
+            background-color: #fef2f2;
+            border-color: #ef4444;
         }
     </style>
 </head>
-<body class="bg-slate-100 font-sans antialiased pb-10">
+<body class="bg-slate-100 font-sans antialiased pb-24">
 
     <header class="sa-green text-white p-4 shadow-xl sticky top-0 z-50 flex justify-between items-center">
         <div class="flex items-center gap-3">
-            <div class="bg-white p-1 rounded">
-                <div class="w-6 h-4 bg-black mb-[1px]"></div>
-                <div class="w-6 h-4 sa-green"></div>
-            </div>
-            <h1 class="font-bold text-sm tracking-tighter">TRAFFIC ENFORCEMENT<br><span class="text-[10px] opacity-80">PROVINCIAL GOVERNMENT</span></h1>
+            <h1 class="font-bold text-sm leading-tight">OFFICIAL ENFORCEMENT<br><span class="text-[10px] opacity-80">RTMC / SAPS CONNECTED</span></h1>
         </div>
-        <button onclick="nextStep(11)" class="bg-white/20 px-3 py-1 rounded text-xs font-bold">📊 STATS</button>
+        <div class="text-right">
+            <p class="text-[10px] font-mono bg-black/20 px-2 py-1 rounded">REF: 2026-TX-091</p>
+        </div>
     </header>
 
     <main class="max-w-md mx-auto p-4">
 
         <section id="step-1" class="step-content active">
-            <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
-                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">👤</div>
-                <h2 class="text-2xl font-black text-slate-800 mb-2">Officer Login</h2>
-                <input type="password" placeholder="ENTER 6-DIGIT PIN" class="w-full bg-slate-50 border-none p-4 rounded-2xl text-center text-2xl tracking-[1em] mb-6">
-                <button onclick="nextStep(2)" class="w-full sa-green text-white py-4 rounded-2xl font-black shadow-lg shadow-green-900/20">START SHIFT</button>
+            <div class="bg-white p-6 rounded-3xl shadow-sm mb-4">
+                <span class="text-[10px] font-black sa-blue text-white px-2 py-1 rounded">STEP 1</span>
+                <h2 class="text-xl font-black mt-2 mb-1">Vehicle License Disc</h2>
+                <p class="text-xs text-gray-500 mb-4">Scan MVLX disc on windscreen</p>
+                <div class="relative h-48 bg-slate-900 rounded-2xl overflow-hidden mb-4">
+                    <div class="scan-line"></div>
+                    <div class="absolute inset-0 flex items-center justify-center text-white/20 text-4xl font-black">SCANNING</div>
+                </div>
+                <button onclick="simulateDiscScan()" id="disc-btn" class="w-full sa-blue text-white py-4 rounded-2xl font-black">START VEHICLE SCAN</button>
+                <div id="disc-result" class="hidden mt-4 p-4 bg-green-50 rounded-xl border border-green-200">
+                    <p class="text-xs font-bold text-green-700">VEHICLE IDENTIFIED: GP 22 RR GP</p>
+                    <p class="text-[10px] text-green-600">Make/Model: VW Polo Vivo (White)</p>
+                </div>
             </div>
         </section>
 
         <section id="step-2" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-4">
-                <h2 class="font-black text-slate-500 text-xs uppercase mb-4 tracking-widest">Active Patrol</h2>
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="p-3 bg-blue-50 text-blue-600 rounded-2xl text-2xl">📡</div>
-                    <div>
-                        <p class="font-bold text-slate-800">Zone: Sandton Sector 2</p>
-                        <p class="text-xs text-gray-500">GPS: -26.1076, 28.0567</p>
-                    </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm mb-4">
+                <span class="text-[10px] font-black sa-blue text-white px-2 py-1 rounded">STEP 2</span>
+                <h2 class="text-xl font-black mt-2 mb-1">Driver's License</h2>
+                <p class="text-xs text-gray-500 mb-4">Scan front of South African DL Card</p>
+                <div class="relative h-48 bg-slate-800 rounded-2xl overflow-hidden mb-4 border-2 border-dashed border-slate-300">
+                    <div class="scan-line"></div>
                 </div>
-                <button onclick="nextStep(3)" class="w-full sa-green text-white py-5 rounded-2xl font-black flex items-center justify-center gap-3">
-                    <span>+</span> NEW VEHICLE STOP
-                </button>
+                <button onclick="simulateDriverScan()" id="driver-btn" class="w-full sa-green text-white py-4 rounded-2xl font-black">SCAN LICENSE CARD</button>
             </div>
         </section>
 
         <section id="step-3" class="step-content">
             <div class="bg-white p-6 rounded-3xl shadow-sm mb-4">
-                <h2 class="text-xl font-black mb-1 text-slate-800">1. Vehicle Disc</h2>
-                <p class="text-sm text-gray-500 mb-6">Scan MVLX Disc on Windscreen</p>
+                <h2 class="text-xl font-black mb-1">Inspection Results</h2>
+                <p class="text-xs text-gray-500 mb-6">Select all applicable violations</p>
                 
-                <div class="relative aspect-square bg-slate-900 rounded-3xl overflow-hidden mb-6 border-4 border-white shadow-inner">
-                    <div class="absolute inset-0 opacity-40 bg-[url('https://www.shutterstock.com/image-vector/qr-code-sample-vector-illustration-260nw-1097155013.jpg')] bg-cover"></div>
-                    <div class="scan-line absolute w-full"></div>
-                </div>
+                <div class="space-y-3" id="violation-list">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-4">Documentation</p>
+                    <div class="relative">
+                        <input type="checkbox" id="v1" class="violation-checkbox hidden" data-fine="1250" onchange="calculateTotal()">
+                        <label for="v1" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Expired License Disc</span>
+                            <span class="text-sm font-mono">R1,250</span>
+                        </label>
+                    </div>
+                    <div class="relative">
+                        <input type="checkbox" id="v2" class="violation-checkbox hidden" data-fine="1000" onchange="calculateTotal()">
+                        <label for="v2" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Unlicensed Driver</span>
+                            <span class="text-sm font-mono">R1,000</span>
+                        </label>
+                    </div>
 
-                <div id="disc-data" class="hidden space-y-3 mb-6 animate-in fade-in duration-500">
-                    <div class="bg-green-50 p-4 rounded-2xl border border-green-100">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-[10px] font-bold text-green-700 uppercase">Registration</span>
-                            <span class="font-mono font-black">GP 22 RR GP</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-bold text-green-700 uppercase">Expiry</span>
-                            <span class="font-bold text-green-700">2026-11-30</span>
-                        </div>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-4">Vehicle Defects</p>
+                    <div class="relative">
+                        <input type="checkbox" id="v3" class="violation-checkbox hidden" data-fine="500" onchange="calculateTotal()">
+                        <label for="v3" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Smooth Tyres (Per Tyre)</span>
+                            <span class="text-sm font-mono">R500</span>
+                        </label>
+                    </div>
+                    <div class="relative">
+                        <input type="checkbox" id="v4" class="violation-checkbox hidden" data-fine="250" onchange="calculateTotal()">
+                        <label for="v4" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
+                            <span class="text-sm font-bold">Broken Headlight/Indicator</span>
+                            <span class="text-sm font-mono">R250</span>
+                        </label>
                     </div>
                 </div>
 
-                <button id="scan-disc-btn" onclick="verifyDisc()" class="w-full sa-blue text-white py-4 rounded-2xl font-black">SCAN DISC</button>
-                <button id="next-to-driver" onclick="nextStep(4)" class="hidden w-full sa-green text-white py-4 rounded-2xl font-black mt-2">CONTINUE TO DRIVER</button>
+                <div class="mt-8 pt-6 border-t-2 border-slate-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-lg font-black italic">TOTAL FINE:</span>
+                        <span id="total-amount" class="text-3xl font-black text-red-600">R0.00</span>
+                    </div>
+                    <button onclick="issueFine()" class="w-full bg-red-600 text-white py-5 rounded-2xl font-black shadow-lg shadow-red-900/20">ISSUE DIGITAL FINE</button>
+                    <button onclick="nextStep(4)" class="w-full mt-3 text-slate-400 font-bold py-2">No Violations (Clear)</button>
+                </div>
             </div>
         </section>
 
         <section id="step-4" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border-t-8 border-green-600">
-                <h2 class="text-xl font-black mb-6">2. Driver Identity</h2>
-                <div class="flex gap-4 mb-6 p-4 bg-slate-50 rounded-2xl">
-                    <div class="w-20 h-20 bg-slate-300 rounded-xl"></div>
-                    <div>
-                        <p class="text-xs text-slate-400 font-bold uppercase">Full Name</p>
-                        <p class="font-black text-slate-800">THABO MOLOI</p>
-                        <p class="text-xs text-slate-400 font-bold uppercase mt-2">License Code</p>
-                        <p class="font-black text-slate-800">CODE B</p>
-                    </div>
-                </div>
-                <button onclick="nextStep(8)" class="w-full sa-green text-white py-4 rounded-2xl font-black">VERIFY VEHICLE MATCH</button>
-            </div>
-        </section>
-
-        <section id="step-8" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm">
-                <h2 class="text-xl font-black mb-4">3. Class Match</h2>
-                <div class="grid grid-cols-1 gap-3">
-                    <button onclick="finalOutcome(true)" class="flex items-center gap-4 p-4 border-2 border-slate-100 rounded-2xl text-left hover:border-green-500 transition-all">
-                        <span class="text-3xl">🚗</span>
-                        <div>
-                            <p class="font-black text-slate-800">Light Motor Vehicle</p>
-                            <p class="text-xs text-slate-500">Matches Code B / EB</p>
-                        </div>
-                    </button>
-                    <button onclick="finalOutcome(false)" class="flex items-center gap-4 p-4 border-2 border-slate-100 rounded-2xl text-left hover:border-red-500 transition-all">
-                        <span class="text-3xl">🚚</span>
-                        <div>
-                            <p class="font-black text-slate-800">Heavy Vehicle / Truck</p>
-                            <p class="text-xs text-red-500 font-bold">Incompatible with Code B</p>
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="step-9" class="step-content">
-            <div id="final-card"></div>
-        </section>
-
-        <section id="step-11" class="step-content">
-            <h2 class="text-2xl font-black mb-6 text-slate-800">Performance Dashboard</h2>
-            
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-white p-4 rounded-3xl shadow-sm">
-                    <p class="text-[10px] font-black text-slate-400 uppercase">Stops Today</p>
-                    <p class="text-3xl font-black text-slate-800">42</p>
-                </div>
-                <div class="bg-white p-4 rounded-3xl shadow-sm">
-                    <p class="text-[10px] font-black text-slate-400 uppercase">Compliance</p>
-                    <p class="text-3xl font-black text-green-600">92%</p>
-                </div>
-            </div>
-
+            <h2 class="text-2xl font-black mb-6">Shift Summary</h2>
             <div class="bg-white p-6 rounded-3xl shadow-sm mb-6">
-                <h3 class="text-xs font-black text-slate-400 uppercase mb-6">Weekly Infringements</h3>
-                <div class="flex items-end justify-between h-32 gap-2">
-                    <div class="flex-1 flex flex-col items-center gap-2">
-                        <div class="w-full bg-slate-100 rounded-t-lg h-12 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
-                        <span class="text-[10px] font-bold">MON</span>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center gap-2">
-                        <div class="w-full bg-slate-100 rounded-t-lg h-24 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
-                        <span class="text-[10px] font-bold">TUE</span>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center gap-2">
-                        <div class="w-full bg-slate-100 rounded-t-lg h-16 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-blue h-full"></div></div>
-                        <span class="text-[10px] font-bold">WED</span>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center gap-2">
-                        <div class="w-full bg-slate-100 rounded-t-lg h-8 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
-                        <span class="text-[10px] font-bold">THU</span>
-                    </div>
-                    <div class="flex-1 flex flex-col items-center gap-2">
-                        <div class="w-full bg-slate-100 rounded-t-lg h-28 relative overflow-hidden"><div class="absolute bottom-0 w-full sa-green h-full opacity-50"></div></div>
-                        <span class="text-[10px] font-bold">FRI</span>
-                    </div>
+                <div class="flex justify-between items-end h-24 gap-2">
+                    <div class="flex-1 bg-slate-100 rounded-t-lg h-[40%] sa-green opacity-50"></div>
+                    <div class="flex-1 bg-slate-100 rounded-t-lg h-[60%] sa-green opacity-50"></div>
+                    <div class="flex-1 bg-slate-100 rounded-t-lg h-[90%] sa-blue"></div>
                 </div>
+                <p class="text-center text-[10px] font-bold text-slate-400 mt-4 uppercase">Stop Volume (Hourly)</p>
             </div>
-
-            <div class="bg-slate-800 p-6 rounded-3xl text-white mb-6">
-                <h3 class="text-xs font-black text-slate-400 uppercase mb-4">Infringement Breakdown</h3>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between text-xs mb-1"><span>Unlicensed Driver</span><span>15%</span></div>
-                        <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-red-500 h-full w-[15%] rounded-full"></div></div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between text-xs mb-1"><span>Expired Disc</span><span>65%</span></div>
-                        <div class="w-full bg-white/10 h-1.5 rounded-full"><div class="bg-orange-400 h-full w-[65%] rounded-full"></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <button onclick="nextStep(2)" class="w-full sa-green text-white py-4 rounded-2xl font-black">RETURN TO PATROL</button>
+            <button onclick="location.reload()" class="w-full sa-green text-white py-4 rounded-2xl font-black">NEW STOP</button>
         </section>
 
     </main>
@@ -199,39 +139,41 @@
             window.scrollTo(0,0);
         }
 
-        function verifyDisc() {
-            const btn = document.getElementById('scan-disc-btn');
-            btn.innerHTML = `<span class="animate-pulse">QUERYING eNaTIS...</span>`;
+        function simulateDiscScan() {
+            const btn = document.getElementById('disc-btn');
+            btn.innerHTML = "CHECKING eNaTIS...";
             setTimeout(() => {
-                btn.classList.add('hidden');
-                document.getElementById('disc-data').classList.remove('hidden');
-                document.getElementById('next-to-driver').classList.remove('hidden');
+                document.getElementById('disc-result').classList.remove('hidden');
+                btn.innerHTML = "NEXT: SCAN DRIVER";
+                btn.onclick = () => nextStep(2);
             }, 1500);
         }
 
-        function finalOutcome(isSuccess) {
-            const card = document.getElementById('final-card');
-            if(isSuccess) {
-                card.innerHTML = `
-                    <div class="bg-white p-8 rounded-3xl text-center border-b-8 border-green-500">
-                        <div class="text-6xl mb-4">🛡️</div>
-                        <h2 class="text-2xl font-black text-slate-800">VERIFIED</h2>
-                        <p class="text-sm text-slate-500 mb-6 uppercase tracking-widest font-bold">Vehicle & Driver Compliant</p>
-                        <button onclick="nextStep(11)" class="w-full sa-green text-white py-4 rounded-2xl font-black">LOG STOP & FINISH</button>
-                    </div>`;
-            } else {
-                card.innerHTML = `
-                    <div class="bg-white p-8 rounded-3xl text-center border-b-8 border-red-500">
-                        <div class="text-6xl mb-4">🚫</div>
-                        <h2 class="text-2xl font-black text-red-600">VIOLATION</h2>
-                        <p class="text-sm text-slate-500 mb-6 uppercase tracking-widest font-bold">Class Mismatch (NRTA Sec 12)</p>
-                        <div class="space-y-2">
-                            <button onclick="nextStep(11)" class="w-full bg-red-600 text-white py-4 rounded-2xl font-black">ISSUE SECTION 56 FINE</button>
-                            <button onclick="nextStep(11)" class="w-full border-2 border-slate-200 py-4 rounded-2xl font-black text-slate-500">WRITTEN WARNING</button>
-                        </div>
-                    </div>`;
+        function simulateDriverScan() {
+            const btn = document.getElementById('driver-btn');
+            btn.innerHTML = "VERIFYING ID...";
+            setTimeout(() => {
+                nextStep(3);
+            }, 1500);
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            const checkboxes = document.querySelectorAll('.violation-checkbox:checked');
+            checkboxes.forEach(cb => {
+                total += parseInt(cb.getAttribute('data-fine'));
+            });
+            document.getElementById('total-amount').innerText = `R${total.toLocaleString()}`;
+        }
+
+        function issueFine() {
+            const total = document.getElementById('total-amount').innerText;
+            if(total === "R0") {
+                alert("Please select at least one violation.");
+                return;
             }
-            nextStep(9);
+            alert(`Fine of ${total} issued and sent to driver via SMS/Email. Logged to AARTO.`);
+            nextStep(4);
         }
     </script>
 </body>

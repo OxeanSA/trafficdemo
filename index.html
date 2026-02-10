@@ -141,15 +141,15 @@
                     </div>
                     <div class="flex justify-between border-b pb-2">
                         <span class="text-gray-600">Expiry</span>
-                        <span class="text-orange-500 font-bold">2026-03-05 (Warning)</span>
+                        <span class="text-orange-500 font-bold">2026-03-05</span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
                         <span class="text-gray-600">Code</span>
                         <span class="font-bold">Code B (Light Motor Vehicle)</span>
                     </div>
                 </div>
-                <div class="mb-6">
-                    <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Infringement History</p>
+                <div class="mb-8">
+                    <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Driver History</p>
                     <div class="space-y-2">
                         <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
                             <span>Speeding (180/100)</span>
@@ -222,7 +222,7 @@
                 <div class="space-y-3 mb-6">
                     <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
                         <p class="text-[10px] font-black text-stone-400 uppercase mb-1">Ownership Link</p>
-                        <p class="font-black text-xs"><i class="fas fa-link mr-1 text-green-600"></i>Driver Is Not Registered Owner</p>
+                        <p class="font-black text-xs"><i class="fas fa-link mr-1 text-red-600"></i>Driver Is Not Registered Owner</p>
                     </div>
                     <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex justify-between items-center">
                         <p class="font-black text-xs text-blue-800 uppercase italic">Insurance: Active (Discovery)</p>
@@ -298,27 +298,27 @@
 
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-4">Vehicle Defects</p>
                     <div class="relative">
-                        <input type="checkbox" id="v3" class="violation-checkbox hidden" data-fine="500" onchange="calculateTotal()">
-                        <label for="v3" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
-                            <span class="text-sm font-bold">Smooth Tyres (Per Tyre)</span>
-                            <span class="text-sm font-mono">R500</span>
+                        <input type="checkbox" id="v1" class="violation-checkbox hidden" data-fine="1250" onchange="calculateTotal()">
+                        <label for="v1" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer text-xs font-black uppercase">
+                            <span><i class="fas fa-wine-bottle mr-2 text-orange-500"></i>Smooth Tyres</span>
+                            <span class="text-red-600">R500</span>
                         </label>
                     </div>
                     <div class="relative">
-                        <input type="checkbox" id="v4" class="violation-checkbox hidden" data-fine="250" onchange="calculateTotal()">
-                        <label for="v4" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition-all">
-                            <span class="text-sm font-bold">Broken Headlight/Indicator</span>
-                            <span class="text-sm font-mono">R250</span>
+                        <input type="checkbox" id="v1" class="violation-checkbox hidden" data-fine="1250" onchange="calculateTotal()">
+                        <label for="v1" class="flex justify-between p-4 border-2 rounded-xl cursor-pointer text-xs font-black uppercase">
+                            <span><i class="fas fa-wine-bottle mr-2 text-orange-500"></i>Broken Headlight/Indicator</span>
+                            <span class="text-red-600">R250</span>
                         </label>
                     </div>
                     <div class="bg-slate-50 p-4 rounded-2xl border-2 border-slate-100">
                         <div class="flex justify-between items-center mb-3">
-                            <span class="text-sm font-bold">Vehicle Defect (Tyres/Lights)</span>
+                            <span class="text-sm font-bold">Vehicle Defects</span>
                             <span class="text-sm font-mono">R500</span>
                         </div>
                         <input type="file" id="evidence-input" accept="image/*" class="hidden" onchange="previewEvidence(this)">
                         <button onclick="document.getElementById('evidence-input').click()" class="w-full bg-white border-2 border-dashed border-slate-300 py-3 rounded-xl text-xs font-bold text-slate-500 flex items-center justify-center gap-2">
-                            📷 Attach Evidence
+                            Attach Evidence (Per Vehicle Defect)
                         </button>
                         <img id="evidence-preview-img" class="evidence-preview mt-3">
                         <input type="checkbox" id="v_defect" class="violation-checkbox hidden" data-fine="500" onchange="calculateTotal()">
@@ -329,10 +329,11 @@
                     <span class="text-sm font-black uppercase italic">Total Fine:</span>
                     <span id="total-amount" class="text-2xl font-black text-red-600">R0.00</span>
                 </div>
+                <button onclick="nextStep('outcome')" class="w-full mt-3 text-slate-400 font-bold py-2">No Violations</button>
                 <button onclick="issueFine()" class="w-full bg-red-600 text-white py-4 rounded-xl font-black uppercase tracking-widest">
                     <i class="fas fa-paper-plane mr-2"></i>Issue Fine
                 </button>
-                <button onclick="nextStep('outcome')" class="w-full mt-3 text-slate-400 font-bold py-2">No Violations (Clear)</button>
+                
             </div>
         </section>
 
@@ -354,7 +355,12 @@
                 <div id="outcome-card" class="bg-white p-6 rounded-xl shadow-md text-center">
                 </div>
                 <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-cloud-check text-4xl text-green-600"></i>
+                    <i class="fas fa-cloud text-4xl text-green-600"></i>
+                </div>
+                <h3 class="text-sm font-bold mb-3 uppercase text-gray-400">Recent Logs</h3>
+                <div class="space-y-3 text-xs">
+                    <div class="flex justify-between border-b pb-2"><span>11:05 AM - Moloi, T</span><span class="text-green-600">PASSED</span></div>
+                    <div class="flex justify-between border-b pb-2"><span>10:42 AM - Dlamini, S</span><span class="text-red-600">FINED (EXP)</span></div>
                 </div>
                 <h2 class="text-xl font-black text-uniform-brown uppercase tracking-tight">Record Synchronized</h2>
                 <p class="text-xs text-stone-500 mt-2 mb-8 font-bold">RTMC CASE REF: #RT-992-01</p>

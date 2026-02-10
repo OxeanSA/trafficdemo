@@ -107,7 +107,19 @@
                     <p class="font-black mb-1">HISTORY: 2 UNPAID FINES</p>
                     <p>• 2025-11-12 | Speeding (N1) | Insp. Khoza</p>
                 </div>
-                <button onclick="nextStep('vehicle-search')" class="w-full sa-blue text-white py-4 rounded-2xl font-black mt-6">NEXT: SCAN DISC</button>
+                <button onclick="nextStep('vehicle')" class="w-full sa-blue text-white py-4 rounded-2xl font-black mt-6">NEXT: SCAN DISC</button>
+            </div>
+        </section>
+
+        <section id="step-vehicle" class="step-content">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-bold mb-4">Select Vehicle Type</h2>
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button onclick="setVehicle('Private')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚗 Private</button>
+                    <button onclick="setVehicle('Taxi')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚐 Taxi</button>
+                    <button onclick="setVehicle('Bus')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚌 Bus</button>
+                    <button onclick="setVehicle('Truck')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚚 Truck</button>
+                </div>
             </div>
         </section>
 
@@ -145,19 +157,7 @@
                         <span class="text-2xl">🛡️</span>
                     </div>
                 </div>
-                <button onclick="nextStep('vehicle')" class="w-full sa-green text-white py-4 rounded-2xl font-black">PROCEED TO INSPECTION</button>
-            </div>
-        </section>
-
-        <section id="step-vehicle" class="step-content">
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <h2 class="text-xl font-bold mb-4">Select Vehicle Type</h2>
-                <div class="grid grid-cols-2 gap-3 mb-6">
-                    <button onclick="setVehicle('Private')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚗 Private</button>
-                    <button onclick="setVehicle('Taxi')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚐 Taxi</button>
-                    <button onclick="setVehicle('Bus')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚌 Bus</button>
-                    <button onclick="setVehicle('Truck')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚚 Truck</button>
-                </div>
+                <button onclick="nextStep('violations')" class="w-full sa-green text-white py-4 rounded-2xl font-black">PROCEED TO INSPECTION</button>
             </div>
         </section>
 
@@ -187,6 +187,11 @@
                 <input type="tel" placeholder="Driver Phone Number" class="w-full bg-slate-50 p-4 rounded-2xl text-center text-xl font-black mb-6 border border-slate-200">
                 <button onclick="location.reload()" class="w-full sa-green text-white py-4 rounded-2xl font-black">FINISH & START NEW STOP</button>
             </div>
+        </section>
+
+        <section id="step-outcome" class="step-content">
+            <div id="outcome-card" class="bg-white p-6 rounded-xl shadow-md text-center">
+                </div>
         </section>
 
     </main>
@@ -234,7 +239,7 @@
                     </div>
                 `;
             }
-            nextStep('violations');
+            nextStep('vehicle-search');
         }
 
         function finishVehicleSearch() {

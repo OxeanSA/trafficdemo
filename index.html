@@ -76,7 +76,7 @@
                 </button>
                 <button onclick="startAction('Scan Disk')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-purple-600 text-left">
                     <span class="text-2xl">📸</span>
-                    <div><p class="font-bold">Scan Disk</p><p class="text-xs text-slate-500">Vehicle Dsik Scan</p></div>
+                    <div><p class="font-bold">Scan Disk</p><p class="text-xs text-slate-500">Vehicle Disk Scan</p></div>
                 </button>
                 <button onclick="startAction('Verify ID Card')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-orange-500 text-left">
                     <span class="text-2xl">🆔</span>
@@ -91,7 +91,7 @@
 
         <section id="step-scanner" class="step-content">
             <div class="bg-white p-6 rounded-3xl shadow-sm text-center">
-                <h2 id="scanner-title" class="text-lg font-black mb-6">Scanner</h2>
+                <h2 id="scanner-title" class="text-lg font-black mb-6"></h2>
                 <div class="relative h-64 bg-slate-900 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
                     <div class="scan-line"></div>
                     <div id="face-guide" class="hidden w-40 h-52 border-2 border-white/30 rounded-[100px]"></div>
@@ -294,12 +294,12 @@
         }
 
         function startAction(type) {
-            document.getElementById('scanner-title').innerText = type + " Scanner";
+            document.getElementById('scanner-title').innerText = type;
             if(type === 'Identify by Face') {
                 document.getElementById('face-guide').classList.remove('hidden');
                 document.getElementById('card-guide').classList.add('hidden');
                 nextStep('scanner');
-            } else if (type === 'Scan disk') {
+            } else if (type === 'Scan Disk') {
                 nextStep('vehicle');
             } else {
                 document.getElementById('face-guide').classList.add('hidden');

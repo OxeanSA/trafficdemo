@@ -242,19 +242,24 @@
         </section>
 
         <section id="step-contact" class="step-content">
-            <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
-                <h2 class="text-2xl font-black mb-6">Send Fine</h2>
-                <input type="tel" placeholder="Driver Phone Number" class="w-full bg-slate-50 p-4 rounded-2xl text-center text-xl font-black mb-6 border border-slate-200">
-                <button onclick="alert(`Fine of ${total} issued and sent to driver via SMS/Email. Logged to AARTO.`); " class="w-full sa-green text-white py-4 rounded-2xl font-black">Proceed</button>
+            <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+                <h2 class="text-sm font-black mb-6 uppercase text-uniform-brown">Driver Contact</h2>
+                <p class="text-[10px] text-stone-500 mb-6 font-bold">ENTER MOBILE NUMBER FOR DIGITAL NOTICE</p>
+                <input id="driver-phone" type="tel" placeholder="082 000 0000" class="w-full bg-stone-100 p-4 rounded-xl text-center text-xl font-black mb-6 border-2 border-fawn outline-none">
+                <button onclick="completeStop()" class="w-full bg-epaulette-blue text-white py-4 rounded-xl font-black uppercase tracking-widest">Send & Finalize</button>
             </div>
         </section>
 
         <section id="step-outcome" class="step-content">
             <div id="outcome-card" class="bg-white p-6 rounded-xl shadow-md text-center">
                 </div>
-            <button onclick="nextStep('menu')" class="w-full mt-3 text-slate-400 font-bold py-2">New stop</button>
+            <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
+                <div class="text-6xl mb-4">✅</div>
+                <h2 class="text-xl font-black text-uniform-brown uppercase">Stop Logged</h2>
+                <p class="text-xs text-stone-500 mt-2 mb-8">All details synchronized with AARTO/RTMC.</p>
+                <button onclick="nextStep('menu')" class="w-full bg-uniform-brown text-white py-4 rounded-xl font-black uppercase tracking-widest">Start Another Stop</button>
+            </div>
         </section>
-
     </main>
 
     <script>
@@ -305,7 +310,7 @@
 
         function finishVehicleSearch() {
             const btn = document.getElementById('v-search-btn');
-            btn.innerHTML = "FETCHING OWNERSHIP & INSURANCE...";
+            btn.innerHTML = "Loading...";
             setTimeout(() => nextStep('vehicle-results'), 1200);
         }
 
@@ -340,6 +345,13 @@
                 return;
             }
             nextStep('contact');
+        }
+
+        function completeStop() {
+            const phone = document.getElementById('driver-phone').value;
+            if(!phone) { alert("Please enter a phone number"); return; }
+            alert("Fine successfully dispatched via SMS.");
+            nextStep('outcome');
         }
     </script>
 </body>

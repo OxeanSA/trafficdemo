@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SA Smart Traffic - Elite Enforcement Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --traffic-fawn: #D2B48C;
@@ -57,12 +58,20 @@
 
         <section id="step-login" class="step-content active">
             <div class="bg-white w-full h-full p-8">
-                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">👮</div>
-                <h2 class="text-2xl font-black text-slate-800 text-center mb-6">Officer Login</h2>
+                <div class="w-20 h-20 bg-fawn rounded-full flex items-center justify-center mx-auto mb-6 border-2 border-uniform-brown shadow-inner">
+                    <i class="fas fa-user-shield text-3xl text-uniform-brown"></i>
+                </div>
+                <h2 class="text-xl font-black text-center mb-6 uppercase tracking-tight">Officer Sign-In</h2>
                 <div class="space-y-4">
-                    <input type="text" placeholder="Force Number" class="w-full bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <input type="password" placeholder="Secure PIN" class="w-full bg-slate-50 p-4 rounded-xl border border-slate-200 text-center tracking-widest">
-                    <button onclick="nextStep('menu')" class="w-full bg-uniform-brown text-white py-4 rounded-xl font-black shadow-lg uppercase tracking-widest">Login</button>
+                    <div class="relative">
+                        <i class="fas fa-id-badge absolute left-4 top-4 text-stone-400"></i>
+                        <input type="text" placeholder="Force Number" class="w-full bg-stone-100 p-4 pl-12 rounded-xl border-2 border-stone-200 outline-none">
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-key absolute left-4 top-4 text-stone-400"></i>
+                        <input type="password" placeholder="PIN" class="w-full bg-stone-100 p-4 pl-12 rounded-xl border-2 border-stone-200 text-center tracking-widest outline-none">
+                    </div>
+                    <button onclick="nextStep('menu')" class="w-full bg-uniform-brown text-white py-4 rounded-xl font-black shadow-lg uppercase tracking-widest hover:bg-stone-700 transition-colors">Login</button>
                 </div>
             </div>
         </section>
@@ -70,46 +79,57 @@
         <section id="step-menu" class="step-content">
             <h2 class="text-xl font-black mb-4 text-slate-800">Identify Driver</h2>
             <div class="grid grid-cols-1 gap-3">
-                <button onclick="startAction('Scan License')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-green-600 text-left">
-                    <span class="text-2xl">💳</span>
-                    <div><p class="font-bold">Scan Driver's License</p><p class="text-xs text-slate-500">Standard NRTA capture</p></div>
+                <button onclick="startAction('Scan License')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-md border-l-8 border-lime-reflective text-left group">
+                    <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-uniform-brown group-hover:bg-lime-reflective transition-colors">
+                        <i class="fas fa-address-card text-xl"></i>
+                    </div>
+                    <div><p class="font-black text-sm uppercase">Scan License</p><p class="text-[10px] text-stone-500 font-bold">Standard Card Capture</p></div>
                 </button>
-                <button onclick="startAction('Scan Disk')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-purple-600 text-left">
-                    <span class="text-2xl">📸</span>
-                    <div><p class="font-bold">Scan Disk</p><p class="text-xs text-slate-500">Vehicle Disk Scan</p></div>
+                <button onclick="startAction('Scan Disk')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-md border-l-8 border-lime-reflective text-left group">
+                    <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-uniform-brown group-hover:bg-lime-reflective transition-colors">
+                        <i class="fas fa-address-card text-xl"></i>
+                    </div>
+                    <div><p class="font-black text-sm uppercase">Scan Disk</p><p class="text-[10px] text-stone-500 font-bold">Standard Disk Capture</p></div>
                 </button>
-                <button onclick="startAction('Verify ID Card')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-orange-500 text-left">
-                    <span class="text-2xl">🆔</span>
-                    <div><p class="font-bold">Verify driver by ID Card</p><p class="text-xs text-slate-500">No license on person</p></div>
+                <button onclick="startAction('Verify ID Card')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-md border-l-8 border-orange-400 text-left group">
+                    <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-uniform-brown group-hover:bg-orange-400 transition-colors">
+                        <i class="fas fa-id-card-alt text-xl"></i>
+                    </div>
+                    <div><p class="font-black text-sm uppercase">ID Card Lookup</p><p class="text-[10px] text-stone-500 font-bold">Bypass Procedure</p></div>
                 </button>
-                <button onclick="startAction('Identify by Face')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-sm border-l-4 border-purple-600 text-left">
-                    <span class="text-2xl">📸</span>
-                    <div><p class="font-bold">Identify driver by Face</p><p class="text-xs text-slate-500">Biometric lookup</p></div>
+                <button onclick="startAction('Identify by Face')" class="flex items-center gap-4 p-5 bg-white rounded-2xl shadow-md border-l-8 border-epaulette-blue text-left group">
+                    <div class="w-12 h-12 bg-stone-100 rounded-full flex items-center justify-center text-uniform-brown group-hover:bg-epaulette-blue group-hover:text-white transition-colors">
+                        <i class="fas fa-face-viewfinder text-xl"></i>
+                    </div>
+                    <div><p class="font-black text-sm uppercase">Biometric Face</p><p class="text-[10px] text-stone-500 font-bold">Home Affairs Sync</p></div>
                 </button>
             </div>
         </section>
 
         <section id="step-scanner" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm text-center">
-                <h2 id="scanner-title" class="text-lg font-black mb-6"></h2>
-                <div class="relative h-64 bg-slate-900 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
+            <div class="bg-white p-6 text-center">
+                <h2 id="scanner-title" class="text-sm font-black mb-6 uppercase text-center tracking-widest"><i class="fas fa-camera-retro mr-2"></i>Scanner Active</h2>
+                <div class="relative h-64 bg-stone-900 rounded-2xl overflow-hidden mb-6 flex items-center justify-center border-4 border-fawn">
                     <div class="scan-line"></div>
-                    <div id="face-guide" class="hidden w-40 h-52 border-2 border-white/30 rounded-[100px]"></div>
-                    <div id="card-guide" class="w-56 h-36 border-2 border-white/30 rounded-xl"></div>
+                    <div id="face-guide" class="hidden w-40 h-52 border-2 border-white/20 rounded-[100px]"></div>
+                    <div id="card-guide" class="w-56 h-36 border-2 border-white/20 rounded-xl"></div>
+                    <i class="fas fa-expand text-white/10 text-9xl absolute"></i>
                 </div>
-                <button onclick="finishIdentification()" class="w-full bg-lime-reflective text-uniform-brown py-4 rounded-xl font-black uppercase tracking-widest border-b-4 border-uniform-brown/30">Capture & Verify</button>
+                <button onclick="finishIdentification()" class="w-full bg-lime-reflective text-uniform-brown py-4 rounded-xl font-black uppercase tracking-widest border-b-4 border-uniform-brown/30">
+                    <i class="fas fa-circle-dot mr-2"></i>Capture & Verify
+                </button>
             </div>
         </section>
 
         <section id="step-details" class="step-content">
-            <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="bg-white p-6">
                 <div class="flex items-center gap-4 mb-6">
-                    <div class="w-20 h-20 bg-gray-200 rounded-full overflow-hidden border-2 border-green-500">
-                        <img src="https://via.placeholder.com/150" alt="Driver Photo">
+                    <div class="w-20 h-20 bg-fawn rounded-full overflow-hidden border-2 border-uniform-brown flex items-center justify-center">
+                        <i class="fas fa-user-tie text-4xl text-uniform-brown"></i>
                     </div>
                     <div>
-                        <h3 class="font-bold text-lg">ERNEST, LITAUNYANE</h3>
-                        <p class="text-sm text-gray-500">ID: 850101 5000 081</p>
+                        <h3 class="font-black text-lg text-uniform-brown uppercase leading-tight">Ernest, Litaunyane</h3>
+                        <p class="text-xs text-gray-500 font-bold"><i class="fas fa-fingerprint mr-1"></i>850101 5000 081</p>
                     </div>
                 </div>
                 
@@ -145,42 +165,59 @@
                     </div>
                 </div>
 
-                <div class="p-4 bg-green-100 rounded-2xl flex items-center justify-between">
-                    <span class="font-black text-green-800">FIT FOR DRIVING</span>
-                    <span class="text-xl">✅</span>
+                <div class="p-4 bg-green-100 rounded-xl border border-green-200 mb-6">
+                    <p class="font-black text-green-800 text-[10px] uppercase tracking-widest"><i class="fas fa-heart-pulse mr-1"></i>Physical Fitness</p>
+                    <p class="text-xs font-bold text-green-900">Fit For Driving</p>
                 </div>
-                <button onclick="nextStep('vehicle')" class="w-full bg-epaulette-blue text-white py-4 rounded-xl font-black mt-6 uppercase tracking-widest shadow-lg">Verify vehicle</button>
+                <button onclick="nextStep('vehicle')" class="w-full bg-epaulette-blue text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-lg">
+                    Proceed <i class="fas fa-arrow-right ml-2"></i>
+                </button>
             </div>
         </section>
 
         <section id="step-vehicle" class="step-content">
-            <div class="bg-white p-6 rounded-xl shadow-md">
-                <h2 class="text-xl font-bold mb-4">Select Vehicle Type</h2>
-                <div class="grid grid-cols-2 gap-3 mb-6">
-                    <button onclick="setVehicle('Private')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚗 Private</button>
-                    <button onclick="setVehicle('Taxi')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚐 Taxi</button>
-                    <button onclick="setVehicle('Bus')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚌 Bus</button>
-                    <button onclick="setVehicle('Truck')" class="border p-4 rounded-lg hover:bg-gray-50 text-center">🚚 Truck</button>
+            <div class="bg-white p-6">
+                <h2 class="text-sm font-black mb-4 uppercase text-uniform-brown tracking-widest"><i class="fas fa-car-side mr-2"></i>Vehicle Category</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="setVehicle('Private')" class="border-2 border-stone-100 p-6 rounded-xl font-bold flex flex-col items-center gap-2 hover:border-fawn">
+                        <i class="fas fa-car text-2xl text-stone-400"></i><span>Private</span>
+                    </button>
+                    <button onclick="setVehicle('Taxi')" class="border-2 border-stone-100 p-6 rounded-xl font-bold flex flex-col items-center gap-2 hover:border-fawn">
+                        <i class="fas fa-van-shuttle text-2xl text-stone-400"></i><span>Taxi</span>
+                    </button>
+                    <button onclick="setVehicle('Bus')" class="border-2 border-stone-100 p-6 rounded-xl font-bold flex flex-col items-center gap-2 hover:border-fawn">
+                        <i class="fas fa-bus text-2xl text-stone-400"></i><span>Bus</span>
+                    </button>
+                    <button onclick="setVehicle('Truck')" class="border-2 border-stone-100 p-6 rounded-xl font-bold flex flex-col items-center gap-2 hover:border-fawn">
+                        <i class="fas fa-truck text-2xl text-stone-400"></i><span>Truck</span>
+                    </button>
                 </div>
             </div>
         </section>
 
         <section id="step-vehicle-search" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm text-center">
-                <h2 class="text-lg font-black mb-2">Vehicle Disk Verification</h2>
-                <p class="text-xs text-slate-400 mb-6">Scan Vehicle Disc</p>
-                <div class="relative h-48 bg-slate-800 rounded-2xl overflow-hidden mb-6 flex items-center justify-center">
+            <div class="bg-white p-6 text-center">
+                <h2 class="text-sm font-black mb-2 uppercase text-uniform-brown"><i class="fas fa-circle-notch fa-spin mr-2"></i>Verification</h2>
+                <p class="text-[10px] text-stone-400 mb-6 font-bold">SCAN MVLX DISC FOR OWNERSHIP</p>
+                <div class="relative h-48 bg-stone-800 rounded-2xl overflow-hidden mb-6 flex items-center justify-center border-4 border-fawn">
                     <div class="scan-line"></div>
-                    <div class="w-32 h-32 border-4 border-white/20 rounded-full"></div>
+                    <i class="fas fa-qrcode text-white/5 text-8xl"></i>
                 </div>
-                <button onclick="finishVehicleSearch()" id="v-search-btn" class="w-full bg-lime-reflective text-uniform-brown py-4 rounded-xl font-black uppercase tracking-widest border-b-4 border-uniform-brown/30">SCAN VEHICLE DISC</button>
+                <button onclick="finishVehicleSearch()" id="v-search-btn" class="w-full bg-epaulette-blue text-white py-4 rounded-xl font-black uppercase tracking-widest">
+                    <i class="fas fa-magnifying-glass mr-2"></i>Scan Disc
+                </button>
             </div>
         </section>
 
         <section id="step-vehicle-results" class="step-content">
-            <div class="bg-white p-6 rounded-3xl mb-4">
-                <h2 class="text-lg font-black mb-4">Vehicle Profile: GP22RR GP</h2>
-                
+            <div class="bg-white p-6 mb-4">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-xl font-black text-uniform-brown">GP 22 RR GP</h2>
+                        <p class="text-[10px] font-bold text-stone-400 uppercase">Toyota Hilux (White)</p>
+                    </div>
+                    <i class="fas fa-shield-check text-green-500 text-3xl"></i>
+                </div>
                 <div class="space-y-4 mb-6">
                     <div class="bg-slate-50 p-4 rounded-2xl">
                         <p class="text-[10px] font-black text-slate-400 uppercase">Current Owner</p>
@@ -210,12 +247,41 @@
                     </div>
                 </div>
 
-                <button onclick="nextStep('violations')" class="w-full bg-uniform-brown text-white py-4 rounded-xl font-black uppercase tracking-widest">Proceed &rarr;</button>
+                <div class="space-y-3 mb-6">
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200">
+                        <p class="text-[10px] font-black text-stone-400 uppercase mb-1">Ownership Link</p>
+                        <p class="font-black text-xs"><i class="fas fa-link mr-1 text-green-600"></i>Driver matches Registered Owner</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 flex justify-between items-center">
+                        <p class="font-black text-xs text-blue-800 uppercase italic">Insurance: Active (Discovery)</p>
+                        <i class="fas fa-file-invoice-dollar text-blue-400"></i>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Vehicle History</p>
+                    <div class="space-y-2">
+                        <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
+                            <span>Traffic Dep.</span>
+                            <span class="font-bold">Vehicle Testing: 2026-21-01</span>
+                        </div>
+                        <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
+                            <span>AUTO SPECS</span>
+                            <span class="font-bold">Engine inspection: 2025-08-11</span>
+                        </div>
+                        <div class="text-[11px] flex justify-between p-2 bg-red-50 text-red-700 rounded-lg border border-red-100">
+                            <span>AUTO X BLOEMFONTEIN</span>
+                            <span class="font-bold">Previous Owner 2022 - 2024</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="nextStep('violations')" class="w-full bg-uniform-brown text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-lg">
+                    <i class="fas fa-clipboard-check mr-2"></i>Conduct Inspection
+                </button>
             </div>
         </section>
 
         <section id="step-violations" class="step-content">
-            <div class="bg-white p-6 rounded-3xl shadow-sm mb-4">
+            <div class="bg-white p-6 mb-4">
                 <h2 class="text-xl font-black mb-1">Inspection</h2>
                 <p class="text-xs text-gray-500 mb-6">Select all applicable violations</p>
                 
@@ -280,7 +346,7 @@
                         </div>
                         <input type="file" id="evidence-input" accept="image/*" class="hidden" onchange="previewEvidence(this)">
                         <button onclick="document.getElementById('evidence-input').click()" class="w-full bg-white border-2 border-dashed border-slate-300 py-3 rounded-xl text-xs font-bold text-slate-500 flex items-center justify-center gap-2">
-                            📷 ATTACH PHOTO EVIDENCE
+                            📷 Attach Evidence
                         </button>
                         <img id="evidence-preview-img" class="evidence-preview mt-3">
                         <input type="checkbox" id="v_defect" class="violation-checkbox hidden" data-fine="500" onchange="calculateTotal()">
